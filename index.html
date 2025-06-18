@@ -111,6 +111,14 @@
                 width: 100%;
             }
         }
+
+        /* Table containers for scrollability */
+        .table-container {
+            max-height: 400px; /* Example max height for scroll */
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 0.5rem;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex antialiased">
@@ -151,6 +159,12 @@
             <button class="nav-button w-full flex items-center p-3 rounded-lg text-left transition-all duration-200 hover:bg-gray-300 hover:text-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500" data-target="reports">
                 <i class="fas fa-chart-bar mr-3 text-lg"></i>
                 <span class="text-lg">Reports</span>
+            </button>
+
+            <!-- New Paytm Web Report Button - Now redirects to a new tab -->
+            <button class="nav-button w-full flex items-center p-3 rounded-lg text-left transition-all duration-200 hover:bg-gray-300 hover:text-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500" id="paytm-web-report-redirect-button">
+                <i class="fas fa-globe mr-3 text-lg"></i>
+                <span class="text-lg">Paytm Web Report</span>
             </button>
 
             <!-- Settings Button (New) -->
@@ -235,6 +249,21 @@
             <h2 class="text-3xl font-bold text-purple-600 mb-6 text-center">
                 <i class="fas fa-file-invoice mr-2"></i> Bill Entry
             </h2>
+            <div class="mb-6 bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm">
+                <h3 class="text-xl font-semibold text-gray-700 mb-4 flex items-center justify-center">
+                    <i class="fas fa-search mr-2"></i> Search & Edit Bill
+                </h3>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input type="text" id="search-bill-no" class="flex-1 p-3 bg-gray-100 border border-gray-300 rounded-lg focus:border-purple-500 focus:ring-purple-500 outline-none transition-colors text-gray-900" placeholder="Enter Bill Number to Search">
+                    <button id="search-bill-button" class="bg-blue-600 text-white p-3 rounded-lg font-bold text-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors flex-shrink-0">
+                        <i class="fas fa-search mr-2"></i> Search
+                    </button>
+                    <button id="clear-bill-form-button" class="bg-gray-500 text-white p-3 rounded-lg font-bold text-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 transition-colors flex-shrink-0">
+                        <i class="fas fa-eraser mr-2"></i> Clear
+                    </button>
+                </div>
+            </div>
+
             <form id="bill-entry-form" class="space-y-4">
                 <div>
                     <label for="bill-no" class="block text-gray-700 text-sm font-semibold mb-2">Bill Number</label>
@@ -248,15 +277,15 @@
                     <label for="bill-date" class="block text-gray-700 text-sm font-semibold mb-2">Date</label>
                     <input type="date" id="bill-date" class="w-full p-3 bg-gray-100 border border-gray-300 rounded-lg focus:border-purple-500 focus:ring-purple-500 outline-none transition-colors text-gray-900" required>
                 </div>
-                <button type="submit" class="w-full bg-purple-600 text-white p-3 rounded-lg font-bold text-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors">
+                <button type="submit" id="save-update-bill-button" class="w-full bg-purple-600 text-white p-3 rounded-lg font-bold text-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors">
                     <i class="fas fa-save mr-2"></i> Save Bill Entry
                 </button>
             </form>
 
             <h3 class="text-xl font-semibold text-gray-700 mt-8 mb-4">All Bill Entries</h3>
-            <div class="bg-gray-100 rounded-lg overflow-hidden border border-gray-300">
+            <div class="table-container">
                 <table class="min-w-full divide-y divide-gray-300">
-                    <thead class="bg-gray-200">
+                    <thead class="bg-gray-200 sticky top-0">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Bill No.</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Amount</th>
@@ -336,9 +365,9 @@
                 <label for="received-payments-search-amount" class="sr-only">Search by Amount</label>
                 <input type="number" id="received-payments-search-amount" class="w-full p-3 bg-gray-100 border border-gray-300 rounded-lg focus:border-purple-500 focus:ring-purple-500 outline-none transition-colors text-gray-900" placeholder="Search by Amount..." step="0.01">
             </div>
-            <div class="bg-gray-100 rounded-lg overflow-hidden border border-gray-300">
+            <div class="table-container">
                 <table class="min-w-full divide-y divide-gray-300">
-                    <thead class="bg-gray-200">
+                    <thead class="bg-gray-200 sticky top-0">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Amount</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Date</th>
@@ -383,9 +412,9 @@
             <div class="flex flex-col md:flex-row gap-6">
                 <div class="flex-1">
                     <h3 class="text-xl font-semibold text-gray-700 mb-4">Unmatched Bill Entries</h3>
-                    <div class="bg-gray-100 rounded-lg overflow-hidden border border-gray-300">
+                    <div class="table-container">
                         <table class="min-w-full divide-y divide-gray-300">
-                            <thead class="bg-gray-200">
+                            <thead class="bg-gray-200 sticky top-0">
                                 <tr>
                                     <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Select</th>
                                     <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Bill No.</th>
@@ -402,9 +431,9 @@
                 </div>
                 <div class="flex-1">
                     <h3 class="text-xl font-semibold text-gray-700 mb-4">Unmatched Received Payments</h3>
-                    <div class="bg-gray-100 rounded-lg overflow-hidden border border-gray-300">
+                    <div class="table-container">
                         <table class="min-w-full divide-y divide-gray-300">
-                            <thead class="bg-gray-200">
+                            <thead class="bg-gray-200 sticky top-0">
                                 <tr>
                                     <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Select</th>
                                     <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Amount</th>
@@ -449,7 +478,7 @@
                 <div class="bg-gray-100 p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold text-gray-700 mb-4">Total Payments Processed (Received)</h3>
                     <p class="text-5xl font-bold text-purple-600 text-center" id="reportTotalReceived">₹0.00</p>
-                    <p class="text-gray-600 text-center">All time</p>
+                    <p class="text-sm text-gray-600 mt-1">All time</p>
                 </div>
                 <div class="bg-gray-100 p-6 rounded-lg shadow-md md:col-span-2">
                     <h3 class="text-xl font-semibold text-gray-700 mb-4">Payment Source Breakdown (Received)</h3>
@@ -459,14 +488,36 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-8 text-center">
-                <button id="print-paytm-report-button" class="bg-indigo-600 text-white p-3 rounded-lg font-bold text-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors">
-                    <i class="fas fa-print mr-2"></i> Print Paytm Payments Report
-                </button>
+            <div class="mt-8 text-center bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm">
+                <h3 class="text-xl font-semibold text-blue-600 mb-4 flex items-center justify-center">
+                    <i class="fas fa-print mr-2"></i> Print Reports
+                </h3>
+                <p class="text-gray-700 mb-4">
+                    Generate and print various payment reports.
+                </p>
+                <div class="flex flex-col space-y-4">
+                    <button id="print-total-received-summary-button" class="bg-indigo-600 text-white p-3 rounded-lg font-bold text-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors">
+                        <i class="fas fa-file-invoice-dollar mr-2"></i> Print Total Received Summary
+                    </button>
+                    <button id="print-paytm-report-button" class="bg-indigo-600 text-white p-3 rounded-lg font-bold text-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors">
+                        <i class="fas fa-print mr-2"></i> Print Paytm Payments Report
+                    </button>
+                    <button id="print-all-received-payments-button" class="bg-blue-600 text-white p-3 rounded-lg font-bold text-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <i class="fas fa-print mr-2"></i> Print All Received Payments
+                    </button>
+                    <button id="print-matched-payments-button" class="bg-teal-600 text-white p-3 rounded-lg font-bold text-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors">
+                        <i class="fas fa-print mr-2"></i> Print Matched Payments
+                    </button>
+                    <button id="print-unmatched-payments-button" class="bg-orange-600 text-white p-3 rounded-lg font-bold text-lg hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+                        <i class="fas fa-print mr-2"></i> Print Unmatched Payments
+                    </button>
+                </div>
             </div>
         </section>
 
-        <!-- Settings Section (New) -->
+        <!-- The "external-paytm-report" section is removed as it's now a direct window.open call. -->
+
+        <!-- Settings Section -->
         <section id="settings" class="content-section hidden w-full max-w-lg bg-white p-8 rounded-xl shadow-lg text-center transition-opacity duration-300 ease-in-out opacity-0">
             <h2 class="text-3xl font-bold text-purple-600 mb-6">
                 <i class="fas fa-cog mr-2"></i> Settings
@@ -531,6 +582,7 @@
         let receivedPayments = []; // Actual payments received
         let tempCsvParsedData = []; // Temporary storage for CSV data before import
         let defaultSelectedDate = ''; // Stores the default date from the pop-up
+        let editingBillId = null; // Stores the ID of the bill currently being edited
 
         // Function to generate a unique ID
         const generateUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
@@ -641,6 +693,8 @@
 
             if (unmatchedBills.length === 0) {
                 unmatchedBillsTableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-gray-500">No unmatched bill entries.</td></tr>';
+                // Add this line to explicitly return and prevent further processing if no data
+                return;
             } else {
                 unmatchedBills.forEach(entry => {
                     const row = document.createElement('tr');
@@ -659,6 +713,8 @@
 
             if (unmatchedReceived.length === 0) {
                 unmatchedReceivedTableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-gray-500">No unmatched received payments.</td></tr>';
+                // Add this line to explicitly return and prevent further processing if no data
+                return;
             } else {
                 unmatchedReceived.forEach(payment => {
                     const row = document.createElement('tr');
@@ -732,8 +788,11 @@
             const availableReceived = [...unmatchedReceived];
 
             unmatchedBills.forEach(bill => {
-                // Find an exactly matching received payment
-                const matchedReceivedIndex = availableReceived.findIndex(received => Math.abs(bill.amount - received.amount) < 0.001); // Use tolerance for float comparison
+                // Find an exactly matching received payment based on amount AND date
+                const matchedReceivedIndex = availableReceived.findIndex(received =>
+                    Math.abs(bill.amount - received.amount) < 0.001 && // Amount check
+                    bill.date === received.date // Date check
+                );
 
                 if (matchedReceivedIndex !== -1) {
                     const received = availableReceived[matchedReceivedIndex];
@@ -762,7 +821,22 @@
 
         // --- Event Handlers and Core Logic ---
 
-        // Handle Bill Entry Form Submission
+        // Function to reset the Bill Entry form to "Add New" mode
+        const resetBillEntryForm = () => {
+            document.getElementById('bill-entry-form').reset();
+            document.getElementById('bill-no').removeAttribute('disabled');
+            document.getElementById('save-update-bill-button').innerHTML = '<i class="fas fa-save mr-2"></i> Save Bill Entry';
+            editingBillId = null;
+            if (defaultSelectedDate) {
+                document.getElementById('bill-date').value = defaultSelectedDate;
+            }
+            document.getElementById('search-bill-no').value = ''; // Clear search input as well
+        };
+        // Expose to global scope for HTML event attributes
+        window.resetBillEntryForm = resetBillEntryForm;
+
+
+        // Handle Bill Entry Form Submission (Save or Update)
         document.getElementById('bill-entry-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const billNo = document.getElementById('bill-no').value.trim();
@@ -770,33 +844,75 @@
             const billDate = document.getElementById('bill-date').value;
 
             if (billNo && !isNaN(billAmount) && billAmount > 0 && billDate) {
-                // Check for duplicate bill number
-                if (paymentEntries.some(entry => entry.billNo === billNo)) {
-                    alert('Bill number already exists. Please use a unique bill number.');
-                    return;
+                if (editingBillId) {
+                    // Update existing bill entry
+                    const billToUpdate = paymentEntries.find(entry => entry.id === editingBillId);
+                    if (billToUpdate) {
+                        billToUpdate.billNo = billNo; // Should technically be disabled, but update just in case
+                        billToUpdate.amount = billAmount;
+                        billToUpdate.date = billDate;
+                        saveAllData();
+                        alert('Bill entry updated successfully!');
+                    }
+                } else {
+                    // Add new bill entry
+                    // Check for duplicate bill number only when adding new entry
+                    if (paymentEntries.some(entry => entry.billNo === billNo)) {
+                        alert('Bill number already exists. Please use a unique bill number.');
+                        return;
+                    }
+
+                    const newBillEntry = {
+                        id: generateUniqueId(),
+                        billNo: billNo,
+                        amount: billAmount,
+                        date: billDate,
+                        status: 'unmatched',
+                        matchedReceivedId: null
+                    };
+                    paymentEntries.push(newBillEntry);
+                    saveAllData();
+                    alert('Bill entry saved successfully!');
                 }
 
-                const newBillEntry = {
-                    id: generateUniqueId(),
-                    billNo: billNo,
-                    amount: billAmount,
-                    date: billDate,
-                    status: 'unmatched',
-                    matchedReceivedId: null
-                };
-                paymentEntries.push(newBillEntry);
-                saveAllData();
                 renderBillEntries();
                 renderUnmatchedForMatching();
-                e.target.reset(); // Clear form
-                // Pre-fill date again after reset if defaultSelectedDate exists
-                if (document.getElementById('bill-date')) { // Check if element exists before setting value
-                    document.getElementById('bill-date').value = defaultSelectedDate;
-                }
-                autoMatchPayments(); // Attempt auto-match after new bill entry
+                resetBillEntryForm(); // Clear form and switch to add mode
+                autoMatchPayments(); // Attempt auto-match after new bill entry or update
             } else {
                 alert('Please fill in all bill entry fields correctly.');
             }
+        });
+
+        // Search Bill Entry functionality
+        document.getElementById('search-bill-button').addEventListener('click', () => {
+            const searchBillNo = document.getElementById('search-bill-no').value.trim();
+            if (!searchBillNo) {
+                alert('Please enter a Bill Number to search.');
+                return;
+            }
+
+            const foundBill = paymentEntries.find(entry => entry.billNo === searchBillNo);
+
+            if (foundBill) {
+                document.getElementById('bill-no').value = foundBill.billNo;
+                document.getElementById('bill-amount').value = foundBill.amount;
+                document.getElementById('bill-date').value = foundBill.date;
+                document.getElementById('bill-no').setAttribute('disabled', 'true'); // Disable bill no during edit
+                document.getElementById('save-update-bill-button').innerHTML = '<i class="fas fa-edit mr-2"></i> Update Bill Entry';
+                editingBillId = foundBill.id;
+                alert(`Bill ${foundBill.billNo} loaded for editing.`);
+            } else {
+                alert(`Bill number "${searchBillNo}" not found. You can add it as a new entry.`);
+                resetBillEntryForm(); // Clear the form and prepare for new entry
+                document.getElementById('bill-no').value = searchBillNo; // Pre-fill with searched term
+            }
+        });
+
+        // Clear Bill Entry form button
+        document.getElementById('clear-bill-form-button').addEventListener('click', () => {
+            resetBillEntryForm();
+            alert('Bill entry form cleared.');
         });
 
         // Delete Bill Entry
@@ -814,21 +930,26 @@
                 renderBillEntries();
                 renderReceivedPayments();
                 renderUnmatchedForMatching();
+                alert('Bill entry deleted successfully!');
+                // If the deleted bill was being edited, reset the form
+                if (editingBillId === id) {
+                    resetBillEntryForm();
+                }
             }
         };
+        window.deleteBillEntry = deleteBillEntry; // Expose to global scope for HTML onclick
 
-        // Edit Bill Entry (Placeholder for now, could open a modal or inline edit)
+        // Edit Bill Entry (now just triggers the search and form population)
         const editBillEntry = (id) => {
-            alert(`Edit functionality for Bill Entry ID: ${id} (Not fully implemented)`);
-            // In a real app, you would populate the form with existing data and allow update
             const entryToEdit = paymentEntries.find(entry => entry.id === id);
             if (entryToEdit) {
-                document.getElementById('bill-no').value = entryToEdit.billNo;
-                document.getElementById('bill-amount').value = entryToEdit.amount;
-                document.getElementById('bill-date').value = entryToEdit.date;
-                // You would typically change the "Save" button to "Update" and handle the update logic
+                // Set the search input and trigger the search button's logic
+                document.getElementById('search-bill-no').value = entryToEdit.billNo;
+                document.getElementById('search-bill-button').click(); // Simulate click
+                showSection('payments-entry'); // Navigate to Bill Entry section
             }
         };
+        window.editBillEntry = editBillEntry; // Expose to global scope for HTML onclick
 
 
         // Handle Manual Received Payment Form Submission
@@ -857,6 +978,7 @@
                     document.getElementById('received-date-manual').value = defaultSelectedDate;
                 }
                 autoMatchPayments(); // Attempt auto-match after new received payment
+                alert('Received payment added successfully!');
             } else {
                 alert('Please fill in all manual received payment fields correctly.');
             }
@@ -887,8 +1009,10 @@
                 renderReceivedPayments();
                 renderBillEntries(); // Bill entries might have changed status
                 renderUnmatchedForMatching();
+                alert('Received payment deleted successfully!');
             }
         };
+        window.deleteReceivedPayment = deleteReceivedPayment; // Expose to global scope for HTML onclick
 
         // CSV Preview Logic
         let currentCsvFilename = ''; // To store the filename for source
@@ -912,8 +1036,8 @@
 
         const displayCsvPreview = (csvText, filename) => {
             const lines = csvText.trim().split('\n');
-            if (lines.length === 0) {
-                alert('The selected CSV file is empty.');
+            if (lines.length <= 1) { // Changed to <= 1 to account for header-only files
+                alert('The selected CSV file is empty or contains only headers.');
                 return;
             }
 
@@ -947,11 +1071,11 @@
             tempCsvParsedData = []; // Clear temporary data
 
             for (let i = 1; i < lines.length; i++) {
-                const parts = lines[i].split(',');
+                const parts = lines[i].split(',').map(p => p.trim());
                 if (parts.length > 0 && lines[i].trim() !== '') { // Ensure row is not empty
                     const rowData = {};
                     headers.forEach((header, index) => {
-                        rowData[header] = parts[index] ? parts[index].trim() : '';
+                        rowData[header] = parts[index] || ''; // Use empty string if part is undefined
                     });
 
                     const amount = parseFloat(rowData[headers[amountIndex]]);
@@ -1043,8 +1167,8 @@
                 const receivedPayment = receivedPayments.find(payment => payment.id === receivedId);
 
                 if (billEntry && receivedPayment) {
-                    // Simple match: check if amounts are exactly equal
-                    if (Math.abs(billEntry.amount - receivedPayment.amount) < 0.001) { // Use tolerance for float comparison
+                    // Simple match: check if amounts and dates are exactly equal
+                    if (Math.abs(billEntry.amount - receivedPayment.amount) < 0.001 && billEntry.date === receivedPayment.date) {
                         billEntry.status = 'matched';
                         billEntry.matchedReceivedId = receivedId;
                         receivedPayment.status = 'matched';
@@ -1056,7 +1180,7 @@
                         renderUnmatchedForMatching(); // Re-render to clear selections and update lists
                         alert('Payments matched successfully!');
                     } else {
-                        alert('Amounts do not exactly match. Please select payments with matching amounts.');
+                        alert('Amounts or dates do not exactly match. Please select payments with matching amounts and dates.');
                     }
                 }
             } else {
@@ -1145,41 +1269,161 @@
         });
 
 
-        // --- Print Functionality for Paytm Payments ---
-        document.getElementById('print-paytm-report-button').addEventListener('click', () => {
-            const paytmPayments = receivedPayments.filter(payment => payment.source.toLowerCase().includes('paytm'));
-
-            if (paytmPayments.length === 0) {
-                alert('No Paytm payments found to print.');
+        // --- Generic Print Function ---
+        const printReport = (title, data, columns, summary = null) => {
+            if (data.length === 0 && summary === null) {
+                alert(`No ${title.toLowerCase()} found to print.`);
                 return;
             }
 
             let printContent = `
                 <div class="printable-content" style="font-family: 'Inter', sans-serif; padding: 20px;">
-                    <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 20px; text-align: center;">Paytm Payments Report</h1>
+                    <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 20px; text-align: center;">${title}</h1>
+            `;
+
+            if (summary !== null) {
+                printContent += `
+                    <div style="font-size: 20px; text-align: center; margin-bottom: 30px; font-weight: bold;">
+                        Total Amount: ₹${summary.toFixed(2)}
+                    </div>
+                `;
+            }
+
+            if (data.length > 0) {
+                printContent += `
                     <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+            `;
+                // Add table headers
+                columns.forEach(col => {
+                    printContent += `<th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">${col.header}</th>`;
+                });
+                printContent += `
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                // Add table rows
+                data.forEach(item => {
+                    printContent += `<tr>`;
+                    columns.forEach(col => {
+                        let value = item[col.field];
+                        // Format amount if applicable
+                        if (col.field.includes('amount') && typeof value === 'number') {
+                            value = `₹${value.toFixed(2)}`;
+                        } else if (col.field === 'status' && typeof value === 'string') {
+                            value = value.charAt(0).toUpperCase() + value.slice(1); // Capitalize status
+                        }
+                        printContent += `<td style="padding: 10px; border-bottom: 1px solid #eee;">${value}</td>`;
+                    });
+                    printContent += `</tr>`;
+                });
+
+                printContent += `
+                            </tbody>
+                        </table>
+                `;
+            } else if (summary === null) { // Only show "No data" if there's no summary either
+                printContent += `<p style="text-align: center; color: #777;">No data available for this report.</p>`;
+            }
+
+            printContent += `</div>`; // Close printable-content div
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+        };
+
+        // --- Print Functionality for Paytm Payments (from Reports) ---
+        document.getElementById('print-paytm-report-button').addEventListener('click', () => {
+            const paytmPayments = receivedPayments.filter(payment => payment.source.toLowerCase().includes('paytm'));
+            printReport('Paytm Payments Report', paytmPayments, [
+                { header: 'Amount', field: 'amount' },
+                { header: 'Date', field: 'date' },
+                { header: 'Source', field: 'source' },
+                { header: 'Status', field: 'status' }
+            ]);
+        });
+
+        // --- Print All Received Payments (from Reports) ---
+        document.getElementById('print-all-received-payments-button').addEventListener('click', () => {
+            printReport('All Received Payments Report', receivedPayments, [
+                { header: 'Amount', field: 'amount' },
+                { header: 'Date', field: 'date' },
+                { header: 'Source', field: 'source' },
+                { header: 'Status', field: 'status' }
+            ]);
+        });
+
+        // --- Print Matched Payments (from Reports) ---
+        document.getElementById('print-matched-payments-button').addEventListener('click', () => {
+            const matchedReceived = receivedPayments.filter(payment => payment.status === 'matched');
+            const matchedBills = paymentEntries.filter(bill => bill.status === 'matched');
+
+            if (matchedReceived.length === 0 && matchedBills.length === 0) {
+                alert('No matched payments found to print.');
+                return;
+            }
+
+            let printContent = `
+                <div class="printable-content" style="font-family: 'Inter', sans-serif; padding: 20px;">
+                    <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 20px; text-align: center;">Matched Payments Report</h1>
+
+                    <h2 style="font-size: 18px; font-weight: bold; margin-top: 20px; margin-bottom: 10px;">Matched Received Payments</h2>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
                         <thead>
                             <tr>
                                 <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">Amount</th>
                                 <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">Date</th>
                                 <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">Source</th>
-                                <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">Status</th>
                             </tr>
                         </thead>
                         <tbody>
             `;
+            if (matchedReceived.length > 0) {
+                matchedReceived.forEach(payment => {
+                    printContent += `
+                                <tr>
+                                    <td style="padding: 10px; border-bottom: 1px solid #eee;">₹${payment.amount.toFixed(2)}</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${payment.date}</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${payment.source}</td>
+                                </tr>
+                    `;
+                });
+            } else {
+                printContent += `<tr><td colspan="3" style="padding: 10px; text-align: center; color: #777;">No matched received payments.</td></tr>`;
+            }
+            printContent += `
+                        </tbody>
+                    </table>
 
-            paytmPayments.forEach(payment => {
-                printContent += `
+                    <h2 style="font-size: 18px; font-weight: bold; margin-top: 20px; margin-bottom: 10px;">Matched Bill Entries</h2>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
                             <tr>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee;">₹${payment.amount.toFixed(2)}</td>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee;">${payment.date}</td>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee;">${payment.source}</td>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee;">${payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}</td>
+                                <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">Bill No.</th>
+                                <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">Amount</th>
+                                <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">Date</th>
                             </tr>
-                `;
-            });
-
+                        </thead>
+                        <tbody>
+            `;
+            if (matchedBills.length > 0) {
+                matchedBills.forEach(bill => {
+                    printContent += `
+                                <tr>
+                                    <td style="padding: 10px; border-bottom: 1px solid #eee;">₹${bill.amount.toFixed(2)}</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${bill.date}</td>
+                                </tr>
+                    `;
+                });
+            } else {
+                printContent += `<tr><td colspan="3" style="padding: 10px; text-align: center; color: #777;">No matched bill entries.</td></tr>`;
+            }
             printContent += `
                         </tbody>
                     </table>
@@ -1193,6 +1437,89 @@
             printWindow.print();
         });
 
+        // --- Print Unmatched Payments (from Reports) ---
+        document.getElementById('print-unmatched-payments-button').addEventListener('click', () => {
+            const unmatchedReceived = receivedPayments.filter(payment => payment.status === 'unmatched');
+            const unmatchedBills = paymentEntries.filter(bill => bill.status === 'unmatched');
+
+            if (unmatchedReceived.length === 0 && unmatchedBills.length === 0) {
+                alert('No unmatched payments or bills found to print.');
+                return;
+            }
+
+            let printContent = `
+                <div class="printable-content" style="font-family: 'Inter', sans-serif; padding: 20px;">
+                    <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 20px; text-align: center;">Unmatched Payments Report</h1>
+
+                    <h2 style="font-size: 18px; font-weight: bold; margin-top: 20px; margin-bottom: 10px;">Unmatched Received Payments</h2>
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">Amount</th>
+                                <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">Date</th>
+                                <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">Source</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            if (unmatchedReceived.length > 0) {
+                unmatchedReceived.forEach(payment => {
+                    printContent += `
+                                <tr>
+                                    <td style="padding: 10px; border-bottom: 1px solid #eee;">₹${payment.amount.toFixed(2)}</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${payment.date}</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${payment.source}</td>
+                                </tr>
+                    `;
+                });
+            } else {
+                printContent += `<tr><td colspan="3" style="padding: 10px; text-align: center; color: #777;">No unmatched received payments.</td></tr>`;
+            }
+            printContent += `
+                        </tbody>
+                    </table>
+
+                    <h2 style="font-size: 18px; font-weight: bold; margin-top: 20px; margin-bottom: 10px;">Unmatched Bill Entries</h2>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">Bill No.</th>
+                                <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">Amount</th>
+                                <th style="padding: 10px; border-bottom: 1px solid #ddd; text-align: left;">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            if (unmatchedBills.length > 0) {
+                unmatchedBills.forEach(bill => {
+                    printContent += `
+                                <tr>
+                                    <td style="padding: 10px; border-bottom: 1px solid #eee;">₹${bill.amount.toFixed(2)}</td>
+                                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${bill.date}</td>
+                                </tr>
+                    `;
+                });
+            } else {
+                printContent += `<tr><td colspan="3" style="padding: 10px; text-align: center; color: #777;">No unmatched bill entries.</td></tr>`;
+            }
+            printContent += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+        });
+
+        // --- Print Total Sum of Received Payments ---
+        document.getElementById('print-total-received-summary-button').addEventListener('click', () => {
+            const totalReceivedAmount = receivedPayments.reduce((sum, payment) => sum + payment.amount, 0);
+            printReport('Total Received Payments Summary', [], [], totalReceivedAmount); // No individual items, just the sum
+        });
 
         // --- UI Navigation Logic ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -1218,10 +1545,15 @@
                     button.classList.add('text-gray-800');
 
                     // Apply active styles if it's the target button AND not the reset button (which has unique styling)
-                    if (button.dataset.target === targetId && targetId !== 'reset-data' && targetId !== 'exit') {
-                        button.classList.add('bg-gray-300', 'text-purple-700', 'font-semibold', 'border-l-4', 'border-purple-600', 'shadow-md');
-                    } else if (button.dataset.target === targetId && (targetId === 'reset-data' || targetId === 'exit')) {
-                         // Ensure reset/exit buttons keeps its unique styling even when active
+                    if (button.dataset.target === targetId && targetId !== 'exit') {
+                        // For settings, it's not red, but a general active state
+                        if (targetId === 'settings') {
+                            button.classList.add('bg-gray-300', 'text-purple-700', 'font-semibold', 'border-l-4', 'border-purple-600', 'shadow-md');
+                        } else {
+                            button.classList.add('bg-gray-300', 'text-purple-700', 'font-semibold', 'border-l-4', 'border-purple-600', 'shadow-md');
+                        }
+                    } else if (button.dataset.target === targetId && targetId === 'exit') {
+                         // Ensure exit button keeps its unique styling even when active
                          button.classList.add('bg-red-200', 'text-red-700', 'font-semibold', 'border-l-4', 'border-red-600', 'shadow-md');
                     }
                 });
@@ -1229,10 +1561,8 @@
                 // Special handling for content updates when a section is shown
                 if (targetId === 'payments-entry') {
                     renderBillEntries();
-                    // Pre-fill date when section is shown
-                    if (defaultSelectedDate && document.getElementById('bill-date')) {
-                        document.getElementById('bill-date').value = defaultSelectedDate;
-                    }
+                    // Pre-fill date and reset form mode when section is shown
+                    resetBillEntryForm(); // Ensure form is in "add new" mode initially
                 } else if (targetId === 'received-payments') {
                     // When showing received payments, reset the search filter and render all
                     document.getElementById('received-payments-search-amount').value = '';
@@ -1262,12 +1592,7 @@
                 showInitialDatePickerModal();
             } else {
                 // If date is already set, pre-fill forms and proceed to dashboard
-                if (document.getElementById('bill-date')) {
-                    document.getElementById('bill-date').value = defaultSelectedDate;
-                }
-                if (document.getElementById('received-date-manual')) {
-                    document.getElementById('received-date-manual').value = defaultSelectedDate;
-                }
+                // This will be handled by showSection('dashboard') call
                 autoMatchPayments(); // Run auto-match immediately after loading data if date is set
                 showSection('dashboard');
             }
@@ -1277,7 +1602,12 @@
             navButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const targetId = button.dataset.target;
-                    showSection(targetId);
+                    // If the target is the Paytm Web Report, directly open in new tab
+                    if (button.id === 'paytm-web-report-redirect-button') { // Check specific ID for direct action
+                        window.open('https://dashboard.paytm.com/next/reports?type=payments', '_blank', 'width=1024,height=768,resizable=yes,scrollbars=yes');
+                    } else {
+                        showSection(targetId);
+                    }
                 });
             });
 
